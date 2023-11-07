@@ -36,5 +36,20 @@ namespace AntiFakebookApi.Controllers
         //        return NG(ex);
         //    }
         //}
+
+        [HttpPut]
+        [Route("change_info_after_signup")]
+        public MessageData ChangeInfoAfterSignup([FromForm] ChangeInfoAfterSignupRequest request)
+        {
+            try
+            {
+                var res = _accountService.UpdateAccount(UserId ,request);
+                return new MessageData { Data = res, Status = 1 };
+            }
+            catch (Exception ex)
+            {
+                return NG(ex);
+            }
+        }
     }
 }
