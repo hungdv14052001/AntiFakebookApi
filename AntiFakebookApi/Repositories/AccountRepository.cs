@@ -8,10 +8,10 @@ using AntiFakebookApi.Utility;
 
 namespace AntiFakebookApi.Repositories
 {
-    public class UserRepository : BaseRespository<Account>
+    public class AccountRepository : BaseRespository<Account>
     {
         private IMapper _mapper;
-        public UserRepository(ApiOption apiConfig, DatabaseContext databaseContext, IMapper mapper) : base(apiConfig, databaseContext)
+        public AccountRepository(ApiOption apiConfig, DatabaseContext databaseContext, IMapper mapper) : base(apiConfig, databaseContext)
         {
             this._mapper = mapper;
         }

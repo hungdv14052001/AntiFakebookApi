@@ -36,58 +36,5 @@ namespace AntiFakebookApi.Controllers
         //        return NG(ex);
         //    }
         //}
-
-        ///// <summary>
-        ///// get profile
-        ///// </summary>
-        ///// <returns></returns>
-        //[HttpPut]
-        //[Route("UpdateProfile")]
-        //public MessageData UpdateProfile(UpdateProfileRequest request)
-        //{
-        //    try
-        //    {
-        //        var res = _accountService.UpdateProfile(UserId, request);
-        //        return new MessageData { Data = res, Status = 1 };
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return NG(ex);
-        //    }
-        //}
-
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        ///// <returns></returns>
-        //[HttpPost]
-        //[AllowAnonymous]
-        //[Route("TestNotify")]
-        //public async Task<MessageData> TestNotifyAsync()
-        //{
-        //    try
-        //    {
-        //        var connectionList = _connectionManager.GetAllSockets();
-        //        foreach (var item in connectionList)
-        //        {
-        //            var socket = item.Value;
-        //            if (socket.State == WebSocketState.Open)
-        //            {
-        //                var message = "{\"name\": \"Test abc\", \"type\": \"Notify\"}";
-        //                await socket.SendAsync(buffer: new ArraySegment<byte>(array: Encoding.ASCII.GetBytes(message),
-        //                                                                  offset: 0,
-        //                                                                  count: message.Length),
-        //                                   messageType: WebSocketMessageType.Text,
-        //                                   endOfMessage: true,
-        //                                   cancellationToken: CancellationToken.None);
-        //            }
-        //        }
-        //        return new MessageData { Data = 1, Status = 1 };
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return NG(ex);
-        //    }
-        //}
     }
 }

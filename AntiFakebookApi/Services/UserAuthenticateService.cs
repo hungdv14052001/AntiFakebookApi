@@ -18,13 +18,13 @@ namespace AntiFakebookApi.Services
 {
     public class UserAuthenticateService
     {
-        private readonly UserRepository _userRepository;
+        private readonly AccountRepository _userRepository;
         private readonly ApiOption _apiOption;
         private readonly IMapper _mapper;
 
         public UserAuthenticateService(ApiOption apiOption, DatabaseContext databaseContext, IMapper mapper)
         {
-            _userRepository = new UserRepository(apiOption, databaseContext, mapper);
+            _userRepository = new AccountRepository(apiOption, databaseContext, mapper);
             _apiOption = apiOption;
             _mapper = mapper;
         }
