@@ -18,43 +18,43 @@ namespace AntiFakebookApi.Controllers
             _accountService = new AccountService(apiConfig, databaseContext, mapper, webHost);
         }
 
-        /// <summary>
-        /// get profile
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        [Route("GetProfile")]
-        public MessageData GetProfile()
-        {
-            try
-            {
-                var res = _accountService.GetProfile(UserId);
-                return new MessageData { Data = res, Status = 1 };
-            }
-            catch (Exception ex)
-            {
-                return NG(ex);
-            }
-        }
+        ///// <summary>
+        ///// get profile
+        ///// </summary>
+        ///// <returns></returns>
+        //[HttpGet]
+        //[Route("GetProfile")]
+        //public MessageData GetProfile()
+        //{
+        //    try
+        //    {
+        //        var res = _accountService.GetProfile(UserId);
+        //        return new MessageData { Data = res, Status = 1 };
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return NG(ex);
+        //    }
+        //}
 
-        /// <summary>
-        /// get profile
-        /// </summary>
-        /// <returns></returns>
-        [HttpPut]
-        [Route("UpdateProfile")]
-        public MessageData UpdateProfile(UpdateProfileRequest request)
-        {
-            try
-            {
-                var res = _accountService.UpdateProfile(UserId, request);
-                return new MessageData { Data = res, Status = 1 };
-            }
-            catch (Exception ex)
-            {
-                return NG(ex);
-            }
-        }
+        ///// <summary>
+        ///// get profile
+        ///// </summary>
+        ///// <returns></returns>
+        //[HttpPut]
+        //[Route("UpdateProfile")]
+        //public MessageData UpdateProfile(UpdateProfileRequest request)
+        //{
+        //    try
+        //    {
+        //        var res = _accountService.UpdateProfile(UserId, request);
+        //        return new MessageData { Data = res, Status = 1 };
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return NG(ex);
+        //    }
+        //}
 
         ///// <summary>
         ///// 
