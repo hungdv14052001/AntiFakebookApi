@@ -12,7 +12,15 @@ namespace AntiFakebookApi.Database
 
 
         #region Account
-        public DbSet<Account> accounts { get; set; }
+        public DbSet<Account> Accounts { get; set; }
+        #endregion
+
+        #region Post
+        public DbSet<Post> Posts { get; set; }
+        #endregion
+
+        #region Comment
+        public DbSet<Comment> Comments { get; set; }
         #endregion
 
         public static void UpdateDatabase(DatabaseContext context)
