@@ -34,7 +34,7 @@ namespace AntiFakebookApi.Services
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public object UserLogin(LoginRequest request)
+        public object Login(LoginRequest request)
         {
             try
             {
@@ -80,22 +80,23 @@ namespace AntiFakebookApi.Services
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public object UserRegister(UserRegisterRequest request)
+        public object Signup(SignupRequest request)
         {
             try
             {
-                var user = _userRepository.FindByCondition(row => row.Email == request.Email).FirstOrDefault();
-                if (user != null)
+                var account = _userRepository.FindByCondition(row => row.Email == request.Email).FirstOrDefault();
+                if (account != null)
                 {
                     throw new ValidateError(1001, "Email has been used");
                 }
-                var newUser = new Account()
+                var newAccount = new Account()
                 {
+                    Name = request.Name,
                     Email = request.Email,
                     Password = UtilityFunction.CreateMD5(request.Email),
                     Status = 1,
                 };
-                _userRepository.Create(newUser);
+                _userRepository.Create(newAccount);
                 _userRepository.SaveChange();
 
                 var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_apiOption.Secret));
@@ -103,8 +104,8 @@ namespace AntiFakebookApi.Services
                 var claimList = new[]
                 {
                     new Claim(ClaimTypes.Role, "User"),
-                    new Claim(ClaimTypes.UserData, newUser.Email),
-                    new Claim(ClaimTypes.Sid, newUser.Id.ToString()),
+                    new Claim(ClaimTypes.UserData, newAccount.Email),
+                    new Claim(ClaimTypes.Sid, newAccount.Id.ToString()),
                 };
                 var token = new JwtSecurityToken(
                     issuer: _apiOption.ValidIssuer,
@@ -117,7 +118,7 @@ namespace AntiFakebookApi.Services
                 return new
                 {
                     token = tokenByString,
-                    user = newUser
+                    user = newAccount
                 };
             }
             catch (Exception ex)

@@ -6,10 +6,10 @@
         public string Name { get; set; }
         public string Password { get; set; }
         public string Email { get; set; }
-        public string Avatar { get; set; }
-        public string Token { get; set; }
-        public string session { get; set; }
-        public string BlockedAccountIdList { get; set; }
+        public string? Avatar { get; set; }
+        public string? Token { get; set; }
+        public string? Session { get; set; }
+        public string? BlockedAccountIdList { get; set; }
         public int Status { get; set; }
     }
 }

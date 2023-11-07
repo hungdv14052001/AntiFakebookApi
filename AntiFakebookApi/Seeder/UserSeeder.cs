@@ -24,6 +24,8 @@ namespace AntiFakebookApi.Seeder
                     Email = "Admin@gmail.com",
                     Password = UtilityFunction.CreateMD5("Admin@gmail.com"),
                     Name = "Admin",
+                    Avatar = "",
+                    BlockedAccountIdList = "",
                     Status = 1,
                 }
                 );
