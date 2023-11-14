@@ -77,5 +77,20 @@ namespace AntiFakebookApi.Controllers
                 return NG(ex);
             }
         }
+
+        [HttpGet]
+        [Route("get_list_posts")]
+        public MessageData GetListPost(int? userId, int? inCamPaint)
+        {
+            try
+            {
+                var res = _postService.GetListPost(userId, inCamPaint);
+                return new MessageData { Data = res };
+            }
+            catch (Exception ex)
+            {
+                return NG(ex);
+            }
+        }
     }
 }

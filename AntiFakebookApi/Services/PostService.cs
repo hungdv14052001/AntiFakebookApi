@@ -4,6 +4,7 @@ using AntiFakebookApi.Database;
 using AntiFakebookApi.Repositories;
 using AntiFakebookApi.Request;
 using AntiFakebookApi.Models;
+using AntiFakebookApi.Dto;
 
 namespace AntiFakebookApi.Services
 {
@@ -100,6 +101,28 @@ namespace AntiFakebookApi.Services
                 _postRepository.SaveChange();
 
                 return post;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public object GetListPost(int? userId, int? inCamPaint)
+        {
+            try
+            {
+                var query = _postRepository.FindAll();
+                if(userId != null)
+                {
+                    query = query.Where(row => row.AccountId == userId);
+                }
+                var postList = query.ToList();
+                var authorIdList = postList.Select(row => row.AccountId).ToList();
+                var authorList = _accountRepository.FindByCondition(row => authorIdList.Contains(row.Id)).ToList();
+
+                var postWithAuthorDtoList = postList.Select(row => new PostWithAuthorDto(row, _mapper.Map<PosterDto>(authorList.Where(a => a.Id == row.AccountId).FirstOrDefault()))).ToList();
+                return postWithAuthorDtoList;
             }
             catch (Exception ex)
             {
