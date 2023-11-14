@@ -38,7 +38,7 @@ namespace AntiFakebookApi.Controllers
             try
             {
                 var res = _userAuthenticateService.Login(request);
-                return new MessageData { Data = res, Status = 1 };
+                return new MessageData { Data = res };
             }
             catch (Exception ex)
             {
@@ -59,7 +59,7 @@ namespace AntiFakebookApi.Controllers
             try
             {
                 var res = _userAuthenticateService.Signup(request);
-                return new MessageData { Data = res, Status = 1 };
+                return new MessageData { Data = res };
             }
             catch (Exception ex)
             {

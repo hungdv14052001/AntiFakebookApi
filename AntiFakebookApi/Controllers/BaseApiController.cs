@@ -14,7 +14,7 @@ namespace AntiFakebookApi.Controllers
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class BaseApiController<T> : ControllerBase where T : BaseApiController<T>
     {
-        public int UserId
+        public int AccountId
         {
             get
             {
@@ -24,16 +24,14 @@ namespace AntiFakebookApi.Controllers
 
         protected MessageData NG(Exception ex)
         {
-            var response = new MessageData { Data = null, Code = "Error", Des = ex.Message, Status = -2 };
+            var response = new MessageData { Data = null, Code = 500, Message = ex.Message };
             if (ex.GetType().Name == "ValidateError")
             {
                 var validateException = ex as ValidateError;
-                response.Code = "ValidateError";
-                response.ErrorCode = validateException.ErrorCode;
-                response.Status = -1;
+                response.Code = 422;
                 return response;
             }
-            response.Des = "Internal Server Error";
+            response.Message = "Internal Server Error";
             return response;
         }
     }

@@ -19,17 +19,58 @@ namespace AntiFakebookApi.Controllers
         }
 
         /// <summary>
-        /// get profile
+        /// add post
         /// </summary>
+        /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost]
         [Route("add_post")]
-        public MessageData AddPost(AddPostRequest request)
+        public MessageData AddPost([FromForm]AddPostRequest request)
         {
             try
             {
-                var res = _postService.AddPost(request);
-                return new MessageData { Data = res, Status = 1 };
+                var res = _postService.AddPost(AccountId, request);
+                return new MessageData { Data = res };
+            }
+            catch (Exception ex)
+            {
+                return NG(ex);
+            }
+        }
+
+        /// <summary>
+        /// Get post
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("get_post")]
+        public MessageData GetPost(int id)
+        {
+            try
+            {
+                var res = _postService.GetPost(id);
+                return new MessageData { Data = res };
+            }
+            catch (Exception ex)
+            {
+                return NG(ex);
+            }
+        }
+
+        /// <summary>
+        /// Delete post
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpDelete]
+        [Route("delete_post")]
+        public MessageData DeletePost(int id)
+        {
+            try
+            {
+                var res = _postService.DeletePost(AccountId, id);
+                return new MessageData { Data = res };
             }
             catch (Exception ex)
             {

@@ -43,8 +43,8 @@ namespace AntiFakebookApi.Controllers
         {
             try
             {
-                var res = _accountService.UpdateAccount(UserId ,request);
-                return new MessageData { Data = res, Status = 1 };
+                var res = _accountService.UpdateAccount(AccountId ,request);
+                return new MessageData { Data = res };
             }
             catch (Exception ex)
             {

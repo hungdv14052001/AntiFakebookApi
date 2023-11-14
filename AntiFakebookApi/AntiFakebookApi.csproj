@@ -28,6 +28,8 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\accounts\avatars\" />
+    <Folder Include="wwwroot\posts\images\" />
+    <Folder Include="wwwroot\posts\videos\" />
   </ItemGroup>
 
 </Project>

@@ -73,7 +73,7 @@ namespace AntiFakebookApi.Migrations
                             Id = 1,
                             Avatar = "",
                             BlockedAccountIdList = "",
-                            CreatedDate = new DateTime(2023, 11, 7, 14, 28, 17, 299, DateTimeKind.Utc).AddTicks(9698),
+                            CreatedDate = new DateTime(2023, 11, 14, 8, 41, 2, 841, DateTimeKind.Utc).AddTicks(6034),
                             Email = "Admin@gmail.com",
                             Name = "Admin",
                             Password = "1376C6CB014C2157D7DFF060B756C812",
@@ -105,6 +105,9 @@ namespace AntiFakebookApi.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
 
@@ -128,12 +131,16 @@ namespace AntiFakebookApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Content")
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Described")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("Image")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LikedAccountIdList")
                         .IsRequired()
@@ -149,9 +156,41 @@ namespace AntiFakebookApi.Migrations
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Video")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Posts");
+                });
+
+            modelBuilder.Entity("AntiFakebookApi.Models.Reaction", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("AccountId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Reactions");
                 });
 #pragma warning restore 612, 618
         }

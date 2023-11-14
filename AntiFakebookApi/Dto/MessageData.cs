@@ -2,10 +2,8 @@
 {
     public class MessageData
     {
-        public int Status { get; set; } = 1;
-        public int ErrorCode { get; set; }
-        public string Code { get; set; } = "Ok";
+        public int Code { get; set; } = 1000;
         public object Data { get; set;}
-        public string Des { get; set;}
+        public string Message { get; set;}
     }
 }

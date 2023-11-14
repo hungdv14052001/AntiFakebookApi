@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AntiFakebookApi.Migrations
 {
-    public partial class version_1 : Migration
+    public partial class version_01 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -38,9 +38,10 @@ namespace AntiFakebookApi.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AccountId = table.Column<int>(type: "int", nullable: false),
-                    BlogId = table.Column<int>(type: "int", nullable: false),
+                    PostId = table.Column<int>(type: "int", nullable: false),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
+                    Type = table.Column<int>(type: "int", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
@@ -56,8 +57,10 @@ namespace AntiFakebookApi.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AccountId = table.Column<int>(type: "int", nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Described = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Media = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Video = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CommentAccountIdList = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LikedAccountIdList = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
@@ -72,7 +75,7 @@ namespace AntiFakebookApi.Migrations
             migrationBuilder.InsertData(
                 table: "Accounts",
                 columns: new[] { "Id", "Avatar", "BlockedAccountIdList", "CreatedDate", "Email", "Name", "Password", "Session", "Status", "Token", "UpdatedDate" },
-                values: new object[] { 1, "", "", new DateTime(2023, 11, 7, 14, 21, 29, 304, DateTimeKind.Utc).AddTicks(8092), "Admin@gmail.com", "Admin", "1376C6CB014C2157D7DFF060B756C812", null, 1, null, null });
+                values: new object[] { 1, "", "", new DateTime(2023, 11, 14, 7, 58, 3, 415, DateTimeKind.Utc).AddTicks(5353), "Admin@gmail.com", "Admin", "1376C6CB014C2157D7DFF060B756C812", null, 1, null, null });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

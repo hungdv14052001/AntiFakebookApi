@@ -9,8 +9,8 @@ namespace AntiFakebookApi.Mapper
     {
         public MappingContext()
         {
-            //CreateMap<CreateCategoryRequest, Category>();
-            //CreateMap<CreateProductRequest, Product>();
+            CreateMap<Account, PosterDto>();
+            CreateMap<Comment, CommentDto>();
             //CreateMap<CreateTableRequest, Table>();
             //CreateMap<CreateEmployeeRequest, User>();
         }

@@ -23,6 +23,10 @@ namespace AntiFakebookApi.Database
         public DbSet<Comment> Comments { get; set; }
         #endregion
 
+        #region Reaction
+        public DbSet<Reaction> Reactions { get; set; }
+        #endregion
+
         public static void UpdateDatabase(DatabaseContext context)
         {
             context.Database.Migrate();
