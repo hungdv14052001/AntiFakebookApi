@@ -5,6 +5,7 @@ using AntiFakebookApi.Repositories;
 using AntiFakebookApi.Request;
 using AntiFakebookApi.Models;
 using AntiFakebookApi.Dto;
+using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 
 namespace AntiFakebookApi.Services
 {
@@ -123,6 +124,23 @@ namespace AntiFakebookApi.Services
 
                 var postWithAuthorDtoList = postList.Select(row => new PostWithAuthorDto(row, _mapper.Map<PosterDto>(authorList.Where(a => a.Id == row.AccountId).FirstOrDefault()))).ToList();
                 return postWithAuthorDtoList;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public object Search(int userId ,SearchRequest request)
+        {
+            try
+            {
+                var query = _postRepository.FindAll().ToList();
+                var authorIdList = query.Select(row => row.AccountId).ToList();
+                var authorList = _accountRepository.FindByCondition(row => authorIdList.Contains(row.Id)).ToList();
+                var postWithAuthorDtoList = query.Select(row => new PostWithAuthorDto(row, _mapper.Map<PosterDto>(authorList.Where(a => a.Id == row.AccountId).FirstOrDefault()))).ToList();
+                var result = postWithAuthorDtoList.Where(b => b.Described.Contains(request.Keyword)).ToList();
+                return result;
             }
             catch (Exception ex)
             {

@@ -92,5 +92,20 @@ namespace AntiFakebookApi.Controllers
                 return NG(ex);
             }
         }
+
+        [HttpPost]
+        [Route("search")]
+        public MessageData Search(SearchRequest request)
+        {
+            try
+            {
+                var res = _postService.Search(AccountId, request);
+                return new MessageData { Data = res };
+            }
+            catch (Exception ex)
+            {
+                return NG(ex);
+            }
+        }
     }
 }
