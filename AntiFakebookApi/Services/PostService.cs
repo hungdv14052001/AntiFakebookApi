@@ -13,6 +13,7 @@ namespace AntiFakebookApi.Services
     {
         private readonly PostRepository _postRepository;
         private readonly AccountRepository _accountRepository;
+        private readonly KeySearchRepository _keySearchRepository;
         private readonly ApiOption _apiOption;
         private readonly IMapper _mapper;
         private readonly IWebHostEnvironment _webHost;
@@ -21,6 +22,7 @@ namespace AntiFakebookApi.Services
         {
             _postRepository = new PostRepository(apiOption, databaseContext, mapper);
             _accountRepository = new AccountRepository(apiOption, databaseContext, mapper);
+            _keySearchRepository = new KeySearchRepository(apiOption, databaseContext, mapper);
             _apiOption = apiOption;
             _mapper = mapper;
             _webHost = webHost;
@@ -135,12 +137,17 @@ namespace AntiFakebookApi.Services
         {
             try
             {
-                var query = _postRepository.FindAll().ToList();
-                var authorIdList = query.Select(row => row.AccountId).ToList();
+                var query = _postRepository.FindAll();
+                if (!string.IsNullOrEmpty(request.Keyword))
+                {
+                    query = query.Where(row => row.Described.ToLower().Contains(request.Keyword.ToLower()) || request.Keyword.ToLower().Contains(row.Described.ToLower()));
+                }
+                var postList = query.ToList();
+                var authorIdList = postList.Select(row => row.AccountId).ToList();
                 var authorList = _accountRepository.FindByCondition(row => authorIdList.Contains(row.Id)).ToList();
-                var postWithAuthorDtoList = query.Select(row => new PostWithAuthorDto(row, _mapper.Map<PosterDto>(authorList.Where(a => a.Id == row.AccountId).FirstOrDefault()))).ToList();
-                var result = postWithAuthorDtoList.Where(b => b.Described.Contains(request.Keyword)).ToList();
-                return result;
+
+                var postWithAuthorDtoList = postList.Select(row => new PostWithAuthorDto(row, _mapper.Map<PosterDto>(authorList.Where(a => a.Id == row.AccountId).FirstOrDefault()))).ToList();
+                return postWithAuthorDtoList;
             }
             catch (Exception ex)
             {

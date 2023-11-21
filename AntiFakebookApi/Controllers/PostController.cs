@@ -95,7 +95,7 @@ namespace AntiFakebookApi.Controllers
 
         [HttpPost]
         [Route("search")]
-        public MessageData Search(SearchRequest request)
+        public MessageData Search([FromQuery] SearchRequest request)
         {
             try
             {
