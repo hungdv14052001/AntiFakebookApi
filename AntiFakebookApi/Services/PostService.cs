@@ -32,6 +32,11 @@ namespace AntiFakebookApi.Services
         {
             try
             {
+                var account = _accountRepository.FindOrFail(accountId);
+                if (account.Coins < 1) 
+                {
+                    throw new Exception("Not enough coin");
+                }
                 var post = new Post()
                 {
                     AccountId = accountId,
@@ -61,7 +66,19 @@ namespace AntiFakebookApi.Services
                 }
                 _postRepository.Create(post);
                 _postRepository.SaveChange();
-                return post;
+
+                // reduce coin
+
+                account.Coins -= 1;
+                account.UpdatedDate = DateTime.Now;
+                _accountRepository.UpdateByEntity(account);
+                _accountRepository.SaveChange();
+                return new
+                {
+                    id = post.Id,
+                    url = "posts/"+post.Id,
+                    coins = account.Coins,
+                };
             }
             catch(Exception ex)
             {
@@ -147,6 +164,24 @@ namespace AntiFakebookApi.Services
                 var authorList = _accountRepository.FindByCondition(row => authorIdList.Contains(row.Id)).ToList();
 
                 var postWithAuthorDtoList = postList.Select(row => new PostWithAuthorDto(row, _mapper.Map<PosterDto>(authorList.Where(a => a.Id == row.AccountId).FirstOrDefault()))).ToList();
+
+                var checkKeyWord = _keySearchRepository.FindByCondition(row => request.Keyword == row.KeyWord && userId == row.AccountId).FirstOrDefault();
+                if (checkKeyWord != null)
+                {
+                    checkKeyWord.UpdatedDate = DateTime.Now;
+                    _keySearchRepository.UpdateByEntity(checkKeyWord);
+                    _keySearchRepository.SaveChange();
+                }
+                else
+                {
+                    checkKeyWord = new KeySearch();
+                    checkKeyWord.AccountId = userId;
+                    checkKeyWord.KeyWord = request.Keyword;
+                    checkKeyWord.UpdatedDate = DateTime.Now;
+                    checkKeyWord.CreatedDate = DateTime.Now;
+                    _keySearchRepository.Create(checkKeyWord);
+                    _keySearchRepository.SaveChange();
+                }
                 return postWithAuthorDtoList;
             }
             catch (Exception ex)

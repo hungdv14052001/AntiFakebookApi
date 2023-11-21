@@ -45,7 +45,16 @@ namespace AntiFakebookApi.Services
                 _accountRepository.UpdateByEntity(account);
                 _accountRepository.SaveChange();
 
-                return account;
+                return new
+                {
+                    id = accountId,
+                    username = account.Name,
+                    email = account.Email,
+                    created = account.CreatedDate,
+                    avatar = account.Avatar,
+
+
+                };
             }
             catch (Exception ex)
             {

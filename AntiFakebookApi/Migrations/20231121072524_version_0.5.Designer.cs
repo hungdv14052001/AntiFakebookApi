@@ -4,6 +4,7 @@ using AntiFakebookApi.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AntiFakebookApi.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20231121072524_version_0.5")]
+    partial class version_05
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -81,7 +83,7 @@ namespace AntiFakebookApi.Migrations
                             Avatar = "",
                             BlockedAccountIdList = "",
                             Coins = 0,
-                            CreatedDate = new DateTime(2023, 11, 21, 7, 37, 38, 224, DateTimeKind.Utc).AddTicks(9796),
+                            CreatedDate = new DateTime(2023, 11, 21, 7, 25, 24, 160, DateTimeKind.Utc).AddTicks(6055),
                             Email = "Admin@gmail.com",
                             Name = "Admin",
                             Password = "1376C6CB014C2157D7DFF060B756C812",
@@ -123,32 +125,6 @@ namespace AntiFakebookApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Comments");
-                });
-
-            modelBuilder.Entity("AntiFakebookApi.Models.KeySearch", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("AccountId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("KeyWord")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("KeySearchs");
                 });
 
             modelBuilder.Entity("AntiFakebookApi.Models.Post", b =>

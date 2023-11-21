@@ -4,6 +4,6 @@
     {
         public int Id { get; set; }
         public int AccountId { get; set; }
-        public int KeyWork { get; set; }
+        public string KeyWord { get; set; }
     }
 }

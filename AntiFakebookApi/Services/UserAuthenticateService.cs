@@ -66,7 +66,12 @@ namespace AntiFakebookApi.Services
                 return new
                 {
                     token = tokenByString,
-                    user = user
+                    id = user.Id,
+                    username = user.Name,
+                    avatar = user.Avatar ,
+                    active = user.Status,
+                    coins = user.Coins
+
                 };
             }
             catch (Exception ex)
@@ -91,9 +96,10 @@ namespace AntiFakebookApi.Services
                 }
                 var newAccount = new Account()
                 {
-                    Name = request.Name,
                     Email = request.Email,
+                    Uuid = request.Uuid,
                     Password = UtilityFunction.CreateMD5(request.Email),
+                    Coins = 10,
                     Status = 1,
                 };
                 _userRepository.Create(newAccount);
@@ -118,7 +124,12 @@ namespace AntiFakebookApi.Services
                 return new
                 {
                     token = tokenByString,
-                    user = newAccount
+                    id = newAccount.Id,
+                    username = newAccount.Name,
+                    avatar = newAccount.Avatar,
+                    active = newAccount.Status,
+                    coins = newAccount.Coins
+
                 };
             }
             catch (Exception ex)
