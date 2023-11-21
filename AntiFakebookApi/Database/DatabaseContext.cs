@@ -27,6 +27,7 @@ namespace AntiFakebookApi.Database
         public DbSet<Reaction> Reactions { get; set; }
         #endregion
 
+        public DbSet<KeySearch> KeySearchs { get; set; }
         public static void UpdateDatabase(DatabaseContext context)
         {
             context.Database.Migrate();
@@ -36,7 +37,7 @@ namespace AntiFakebookApi.Database
         {
             if (!optionsBuilder.IsConfigured)
             {
-                var sqlConnection = "data source=DESKTOP-LT577PM\\SQLEXPRESS;initial catalog=anti_fakebook;user id=sa;password=1234$;MultipleActiveResultSets=true;";
+                var sqlConnection = "data source=DESKTOP-V87NI7H;initial catalog=anti_fakebook;user id=sa;password=1234$;MultipleActiveResultSets=true;";
                 optionsBuilder.UseSqlServer(sqlConnection);
             }
         }
