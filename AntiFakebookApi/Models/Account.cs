@@ -9,8 +9,7 @@
         public string? Avatar { get; set; } = "";
         public string? Token { get; set; }
         public string? Session { get; set; }
-        public string? BlockedAccountIdList { get; set; }
-
+        public string BlockedAccountIdList { get; set; } = "";
         public int Coins { get; set; }
         public string Uuid { get; set; } = "";
         public int Status { get; set; }

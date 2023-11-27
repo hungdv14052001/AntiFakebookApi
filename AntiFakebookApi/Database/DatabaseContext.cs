@@ -27,7 +27,14 @@ namespace AntiFakebookApi.Database
         public DbSet<Reaction> Reactions { get; set; }
         #endregion
 
+        #region KeySearch
         public DbSet<KeySearch> KeySearchs { get; set; }
+        #endregion
+
+        #region RequestFriend
+        public DbSet<RequestFriend> RequestFriends { get; set; }
+        #endregion
+
         public static void UpdateDatabase(DatabaseContext context)
         {
             context.Database.Migrate();

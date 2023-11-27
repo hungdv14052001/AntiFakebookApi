@@ -25,7 +25,7 @@ namespace AntiFakebookApi.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("add_post")]
-        public MessageData AddPost([FromForm]AddPostRequest request)
+        public MessageData AddPost([FromForm] AddPostRequest request)
         {
             try
             {
@@ -93,7 +93,7 @@ namespace AntiFakebookApi.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("search")]
         public MessageData Search([FromQuery] SearchRequest request)
         {

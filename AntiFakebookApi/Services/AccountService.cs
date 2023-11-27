@@ -3,6 +3,7 @@ using AntiFakebookApi.Common;
 using AntiFakebookApi.Database;
 using AntiFakebookApi.Repositories;
 using AntiFakebookApi.Request;
+using System.Linq;
 
 namespace AntiFakebookApi.Services
 {
@@ -21,7 +22,7 @@ namespace AntiFakebookApi.Services
             _webHost = webHost;
         }
 
-        public object UpdateAccount(int accountId ,ChangeInfoAfterSignupRequest request)
+        public object UpdateAccount(int accountId, ChangeInfoAfterSignupRequest request)
         {
             try
             {
@@ -60,7 +61,83 @@ namespace AntiFakebookApi.Services
             {
                 throw ex;
             }
+        }
 
+        public object GetListBlocks(int accountId)
+        {
+            try
+            {
+                var account = _accountRepository.FindByCondition(row => row.Id == accountId).FirstOrDefault();
+                if (account == null)
+                {
+                    throw new Exception("Account doesn't exist!");
+                }
+                var accountIdList = new List<int>();
+                if (!string.IsNullOrEmpty(account.BlockedAccountIdList))
+                {
+                    accountIdList = account.BlockedAccountIdList?.Split(',')?.Select(Int32.Parse)?.ToList();
+                }
+                return _accountRepository.FindByCondition(row => accountIdList.Contains(row.Id)).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public object SetBlock(int accountId, SetBlockRequest request)
+        {
+            try
+            {
+                var account = _accountRepository.FindByCondition(row => row.Id == accountId).FirstOrDefault();
+                if (account == null)
+                {
+                    throw new Exception("Account doesn't exist!");
+                }
+                var accountBlocked = _accountRepository.FindByCondition(row => row.Id == request.UserId).FirstOrDefault();
+                if (account == null)
+                {
+                    throw new Exception("UserId doesn't exist!");
+                }
+
+                var accountIdList = new List<int>();
+                if (!string.IsNullOrEmpty(account.BlockedAccountIdList))
+                {
+                    accountIdList = account.BlockedAccountIdList?.Split(',')?.Select(Int32.Parse)?.ToList();
+                }
+                if (request.Type == 0)
+                {
+                    if (accountIdList.Contains(accountBlocked.Id))
+                    {
+                        throw new Exception("This user has been blocked");
+                    }
+                    accountIdList.Add(accountBlocked.Id);
+                }
+                else if (request.Type == 1)
+                {
+                    if (!accountIdList.Contains(accountBlocked.Id))
+                    {
+                        throw new Exception("This user has not been blocked");
+                    }
+                    accountIdList.Remove(accountBlocked.Id);
+                }
+                var blockedAccountIdList = "";
+                for (int i = 0; i < accountIdList.Count() - 1; i++)
+                {
+                    blockedAccountIdList += accountIdList[i] + ", ";
+                }
+                if (accountIdList.Count > 0)
+                {
+                    blockedAccountIdList += accountIdList[accountIdList.Count() - 1];
+                }
+                _accountRepository.UpdateByEntity(account);
+                _accountRepository.SaveChange();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }
