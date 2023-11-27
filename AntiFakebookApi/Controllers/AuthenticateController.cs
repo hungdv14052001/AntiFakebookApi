@@ -67,25 +67,25 @@ namespace AntiFakebookApi.Controllers
             }
         }
 
-        ///// <summary>
-        ///// change password
-        ///// </summary>
-        ///// <param name="request"></param>
-        ///// <returns></returns>
-        //[HttpPut]
-        //[Route("ChangePassword")]
-        //public MessageData ChangePassword(ChangePasswordRequest request)
-        //{
-        //    try
-        //    {
-        //        var res = _userAuthenticateService.ChangePassword(UserId, request);
-        //        return new MessageData { Data = res, Status = 1 };
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return NG(ex);
-        //    }
-        //}
+        /// <summary>
+        /// change password
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPut]
+        [Route("ChangePassword")]
+        public MessageData ChangePassword(ChangePasswordRequest request)
+        {
+            try
+            {
+                var res = _userAuthenticateService.ChangePassword(AccountId, request);
+                return new MessageData { Data = res };
+            }
+            catch (Exception ex)
+            {
+                return NG(ex);
+            }
+        }
 
         ///// <summary>
         ///// forgot password

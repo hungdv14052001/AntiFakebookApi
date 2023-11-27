@@ -28,6 +28,7 @@ namespace AntiFakebookApi.Database
         #endregion
 
         public DbSet<KeySearch> KeySearchs { get; set; }
+        public DbSet<PushSetting> PushSettings { get; set; }
         public static void UpdateDatabase(DatabaseContext context)
         {
             context.Database.Migrate();
