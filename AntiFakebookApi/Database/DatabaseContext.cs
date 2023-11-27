@@ -35,6 +35,10 @@ namespace AntiFakebookApi.Database
         public DbSet<RequestFriend> RequestFriends { get; set; }
         #endregion
 
+        #region PushSetting
+        public DbSet<PushSetting> PushSettings { get; set; }
+        #endregion
+
         public static void UpdateDatabase(DatabaseContext context)
         {
             context.Database.Migrate();

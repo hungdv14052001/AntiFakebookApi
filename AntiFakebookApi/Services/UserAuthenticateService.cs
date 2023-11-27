@@ -19,12 +19,14 @@ namespace AntiFakebookApi.Services
     public class UserAuthenticateService
     {
         private readonly AccountRepository _userRepository;
+        private readonly PushSettingRepository _pushSettingRepository;
         private readonly ApiOption _apiOption;
         private readonly IMapper _mapper;
 
         public UserAuthenticateService(ApiOption apiOption, DatabaseContext databaseContext, IMapper mapper)
         {
             _userRepository = new AccountRepository(apiOption, databaseContext, mapper);
+            _pushSettingRepository = new PushSettingRepository(apiOption, databaseContext, mapper);
             _apiOption = apiOption;
             _mapper = mapper;
         }
@@ -121,6 +123,21 @@ namespace AntiFakebookApi.Services
                     signingCredentials: credentials
                 );
                 var tokenByString = new JwtSecurityTokenHandler().WriteToken(token);
+                var newPushSetting = new PushSetting();
+                newPushSetting.AccountId = newAccount.Id;
+                newPushSetting.LikeComment = "Default";
+                newPushSetting.FromFriends = "Default";
+                newPushSetting.RequestedFriend = "Default";
+                newPushSetting.SuggestedFriend = "Default";
+                newPushSetting.BirthDay = "Default";
+                newPushSetting.Video = "Default";
+                newPushSetting.Report = "Default";
+                newPushSetting.SoundOn = "Default";
+                newPushSetting.NotificationOn = "Default";
+                newPushSetting.VibrandOn = "Default";
+                newPushSetting.LedOn = "Default";
+                _pushSettingRepository.Create(newPushSetting);
+                _pushSettingRepository.SaveChange();
                 return new
                 {
                     token = tokenByString,
@@ -149,7 +166,7 @@ namespace AntiFakebookApi.Services
             try
             {
                 var user = _userRepository.FindOrFail(userId);
-                if (user != null)
+                if (user == null)
                 {
                     throw new ValidateError(2000, "User doesn't exist");
                 }

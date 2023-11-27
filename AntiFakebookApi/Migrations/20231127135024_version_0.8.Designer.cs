@@ -4,6 +4,7 @@ using AntiFakebookApi.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AntiFakebookApi.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20231127135024_version_0.8")]
+    partial class version_08
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -81,7 +83,7 @@ namespace AntiFakebookApi.Migrations
                             Avatar = "",
                             BlockedAccountIdList = "",
                             Coins = 0,
-                            CreatedDate = new DateTime(2023, 11, 27, 14, 5, 36, 613, DateTimeKind.Utc).AddTicks(2415),
+                            CreatedDate = new DateTime(2023, 11, 27, 13, 50, 24, 187, DateTimeKind.Utc).AddTicks(8779),
                             Email = "Admin@gmail.com",
                             Name = "Admin",
                             Password = "1376C6CB014C2157D7DFF060B756C812",
@@ -238,7 +240,7 @@ namespace AntiFakebookApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("RequestedFriend")
+                    b.Property<string>("RequestedFriends")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -246,7 +248,7 @@ namespace AntiFakebookApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("SuggestedFriend")
+                    b.Property<string>("SuggestedFriends")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
