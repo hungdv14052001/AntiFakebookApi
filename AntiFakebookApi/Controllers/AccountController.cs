@@ -51,5 +51,35 @@ namespace AntiFakebookApi.Controllers
                 return NG(ex);
             }
         }
+
+        [HttpGet]
+        [Route("get_list_blocks")]
+        public MessageData GetListBlocks(int? index, int? count)
+        {
+            try
+            {
+                var res = _accountService.GetListBlocks(AccountId);
+                return new MessageData { Data = res };
+            }
+            catch (Exception ex)
+            {
+                return NG(ex);
+            }
+        }
+
+        [HttpPost]
+        [Route("set_block")]
+        public MessageData SetBlock(SetBlockRequest request)
+        {
+            try
+            {
+                var res = _accountService.SetBlock(AccountId, request);
+                return new MessageData { Data = res };
+            }
+            catch (Exception ex)
+            {
+                return NG(ex);
+            }
+        }
     }
 }

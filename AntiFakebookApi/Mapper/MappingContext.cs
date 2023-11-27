@@ -11,6 +11,7 @@ namespace AntiFakebookApi.Mapper
         {
             CreateMap<Account, PosterDto>();
             CreateMap<Comment, CommentDto>();
+            CreateMap<Account, FriendDto>();
             //CreateMap<CreateTableRequest, Table>();
             //CreateMap<CreateEmployeeRequest, User>();
         }
