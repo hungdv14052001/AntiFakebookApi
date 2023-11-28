@@ -35,13 +35,18 @@ namespace AntiFakebookApi.Services
         {
             try
             {
-                var requestFriend = new RequestFriend()
+                var requestFriend = _requestFriendRepository.FindByCondition(row => (row.AccountIdSendRequest == accountId && row.AccountIdReceive == userId) || (row.AccountIdSendRequest == userId && row.AccountIdReceive == accountId)).FirstOrDefault();
+                if (requestFriend != null && accountId == userId)
+                {
+                    throw new Exception("Can not add request");
+                }
+                var newRequestFriend = new RequestFriend()
                 {
                     AccountIdSendRequest = accountId,
                     AccountIdReceive = userId,
                     Status = 1
                 };
-                _requestFriendRepository.Create(requestFriend);
+                _requestFriendRepository.Create(newRequestFriend);
                 _requestFriendRepository.SaveChange();
 
                 // create notification
@@ -59,9 +64,9 @@ namespace AntiFakebookApi.Services
         {
             try
             {
-                var query = _requestFriendRepository.FindByCondition(row => row.Status == 1 && row.AccountIdSendRequest == accountId);
+                var query = _requestFriendRepository.FindByCondition(row => row.Status == 1 && row.AccountIdReceive == accountId);
                 var requestFriendList = query.ToList();
-                var userIdList = requestFriendList.Select(row => row.AccountIdReceive).ToList();
+                var userIdList = requestFriendList.Select(row => row.AccountIdSendRequest).ToList();
                 var userList = _accountRepository.FindByCondition(row => userIdList.Contains(row.Id)).ToList();
                 var requestFriendDtoList = userList.Select(row => _mapper.Map<FriendDto>(row)).ToList();
 

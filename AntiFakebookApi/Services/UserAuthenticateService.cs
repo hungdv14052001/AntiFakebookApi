@@ -215,9 +215,9 @@ namespace AntiFakebookApi.Services
                 _userRepository.UpdateByEntity(user);
                 _userRepository.SaveChange();
 
-                var tb = "<div>OTP Code là: " + user.CodeVerify + "</div>";
+                var tb = "<div>Code verify is: " + user.CodeVerify + "</div>";
 
-                MailMessage mail = new MailMessage("pvo.dictionary.hung.dv@gmail.com", user.Email, "Schedule management send OTP to reset password", tb);
+                MailMessage mail = new MailMessage("pvo.dictionary.hung.dv@gmail.com", user.Email, "Anti FakeBook send verify code", tb);
                 mail.IsBodyHtml = true;
                 SmtpClient client = new SmtpClient("smtp.gmail.com");
                 client.Host = "smtp.gmail.com";

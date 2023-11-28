@@ -4,6 +4,7 @@ using AntiFakebookApi.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AntiFakebookApi.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20231128024304_version_0.2")]
+    partial class version_02
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -87,7 +89,7 @@ namespace AntiFakebookApi.Migrations
                             BlockedAccountIdList = "",
                             CodeVerify = "",
                             Coins = 0,
-                            CreatedDate = new DateTime(2023, 11, 28, 2, 59, 51, 286, DateTimeKind.Utc).AddTicks(4486),
+                            CreatedDate = new DateTime(2023, 11, 28, 2, 43, 3, 935, DateTimeKind.Utc).AddTicks(4029),
                             Email = "Admin@gmail.com",
                             Name = "Admin",
                             Password = "1376C6CB014C2157D7DFF060B756C812",
@@ -129,31 +131,6 @@ namespace AntiFakebookApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Comments");
-                });
-
-            modelBuilder.Entity("AntiFakebookApi.Models.Friend", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("AccountIdReceive")
-                        .HasColumnType("int");
-
-                    b.Property<int>("AccountIdSend")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Friends");
                 });
 
             modelBuilder.Entity("AntiFakebookApi.Models.KeySearch", b =>

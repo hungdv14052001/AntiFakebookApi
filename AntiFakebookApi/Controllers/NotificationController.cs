@@ -32,5 +32,20 @@ namespace AntiFakebookApi.Controllers
                 return NG(ex);
             }
         }
+
+        [HttpPut]
+        [Route("set_read_notification")]
+        public MessageData SetReadNotification(int notificationId)
+        {
+            try
+            {
+                var res = _notificationService.SetReadNotification(AccountId, notificationId);
+                return new MessageData { Data = res };
+            }
+            catch (Exception ex)
+            {
+                return NG(ex);
+            }
+        }
     }
 }
