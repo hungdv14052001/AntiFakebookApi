@@ -67,12 +67,12 @@ namespace AntiFakebookApi.Services
                 var tokenByString = new JwtSecurityTokenHandler().WriteToken(token);
                 return new
                 {
-                    token = tokenByString,
-                    id = user.Id,
-                    username = user.Name,
-                    avatar = user.Avatar ,
-                    active = user.Status,
-                    coins = user.Coins
+                    token = tokenByString.ToString(),
+                    id = user.Id.ToString(),
+                    username = user.Name.ToString(),
+                    avatar = user.Avatar.ToString(),
+                    active = user.Status.ToString(),
+                    coins = user.Coins.ToString()
 
                 };
             }

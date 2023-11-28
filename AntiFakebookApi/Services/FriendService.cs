@@ -73,7 +73,7 @@ namespace AntiFakebookApi.Services
                 return new
                 {
                     request = friendDtoList,
-                    total = friendDtoList.Count()
+                    total = friendDtoList.Count().ToString()
                 };
             }
             catch (Exception ex)
