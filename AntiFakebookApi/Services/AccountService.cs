@@ -48,11 +48,11 @@ namespace AntiFakebookApi.Services
 
                 return new
                 {
-                    id = accountId,
-                    username = account.Name,
-                    email = account.Email,
-                    created = account.CreatedDate,
-                    avatar = account.Avatar,
+                    id = accountId.ToString(),
+                    username = account.Name.ToString(),
+                    email = account.Email.ToString(),
+                    created = account.CreatedDate.ToString(),
+                    avatar = account.Avatar.ToString(),
 
 
                 };
@@ -132,7 +132,7 @@ namespace AntiFakebookApi.Services
                 }
                 _accountRepository.UpdateByEntity(account);
                 _accountRepository.SaveChange();
-                return true;
+                return "true";
             }
             catch (Exception ex)
             {

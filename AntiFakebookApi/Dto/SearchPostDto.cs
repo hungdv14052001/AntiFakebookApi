@@ -4,7 +4,7 @@ namespace AntiFakebookApi.Dto
 {
     public class SearchPostDto
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string Described { get; set; }
         public string Media { get; set; }
         public string Image { get; set; }
@@ -16,7 +16,7 @@ namespace AntiFakebookApi.Dto
         public SearchPostDto(Post post, PosterDto posterDto)
         {
             Author = posterDto;
-            Id = post.Id;
+            Id = post.Id.ToString();
             Described = post.Described;
             Media = post.Media;
             Image = post.Image;
