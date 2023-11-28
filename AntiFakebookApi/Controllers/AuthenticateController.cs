@@ -87,26 +87,47 @@ namespace AntiFakebookApi.Controllers
             }
         }
 
-        ///// <summary>
-        ///// forgot password
-        ///// </summary>
-        ///// <param name="username"></param>
-        ///// <returns></returns>
-        //[HttpPut]
-        //[AllowAnonymous]
-        //[Route("ForgotPassword")]
-        //public MessageData ForgotPassword(string username)
-        //{
-        //    try
-        //    {
-        //        var res = _userAuthenticateService.ForgotPassword(username);
-        //        return new MessageData { Data = res, Status = 1 };
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return NG(ex);
-        //    }
-        //}
+        /// <summary>
+        /// forgot password
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("get_verify_code")]
+        public MessageData GetVerifyCode(string email)
+        {
+            try
+            {
+                var res = _userAuthenticateService.GetVerifyCode(email);
+                return new MessageData { Data = res };
+            }
+            catch (Exception ex)
+            {
+                return NG(ex);
+            }
+        }
+
+        /// <summary>
+        /// forgot password
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        [HttpPut]
+        [AllowAnonymous]
+        [Route("Check_verify_code")]
+        public MessageData CheckVerifyCode(CheckVerifyCodeRequest request)
+        {
+            try
+            {
+                var res = _userAuthenticateService.CheckVerifyCode(request);
+                return new MessageData { Data = res };
+            }
+            catch (Exception ex)
+            {
+                return NG(ex);
+            }
+        }
 
         ///// <summary>
         ///// Verify OTP

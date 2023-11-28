@@ -5,6 +5,8 @@ using AntiFakebookApi.Repositories;
 using AntiFakebookApi.Models;
 using AntiFakebookApi.Dto;
 using AntiFakebookApi.Request;
+using AntiFakebookApi.Common.Enum;
+using Microsoft.Extensions.Hosting;
 
 namespace AntiFakebookApi.Services
 {
@@ -13,12 +15,14 @@ namespace AntiFakebookApi.Services
         private readonly RequestFriendRepository _requestFriendRepository;
         private readonly FriendRepository _friendRepository;
         private readonly AccountRepository _accountRepository;
+        private readonly NotificationService _notificationService;
         private readonly ApiOption _apiOption;
         private readonly IMapper _mapper;
         private readonly IWebHostEnvironment _webHost;
 
         public RequestFriendService(ApiOption apiOption, DatabaseContext databaseContext, IMapper mapper, IWebHostEnvironment webHost)
         {
+            _notificationService = new NotificationService(apiOption, databaseContext, mapper, webHost);
             _requestFriendRepository = new RequestFriendRepository(apiOption, databaseContext, mapper);
             _friendRepository = new FriendRepository(apiOption, databaseContext, mapper);
             _accountRepository = new AccountRepository(apiOption, databaseContext, mapper);
@@ -39,6 +43,10 @@ namespace AntiFakebookApi.Services
                 };
                 _requestFriendRepository.Create(requestFriend);
                 _requestFriendRepository.SaveChange();
+
+                // create notification
+                _notificationService.CreateNotification(NotificationTypeEnum.SendRequest, userId, accountId, 0);
+
                 return _requestFriendRepository.FindByCondition(row => row.Status == 1 && row.AccountIdSendRequest == accountId).ToList();
             }
             catch (Exception ex)
@@ -104,6 +112,9 @@ namespace AntiFakebookApi.Services
                 };
                 _friendRepository.Create(friend);
                 _friendRepository.SaveChange();
+
+                // create notification
+                _notificationService.CreateNotification(NotificationTypeEnum.AcceptFriend, friend.AccountIdSend, accountId, 0);
 
                 return reuqestFriend;
             }

@@ -34,6 +34,11 @@ namespace AntiFakebookApi.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("BlockedAccountIdList")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CodeVerify")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Coins")
@@ -80,8 +85,9 @@ namespace AntiFakebookApi.Migrations
                             Id = 1,
                             Avatar = "",
                             BlockedAccountIdList = "",
+                            CodeVerify = "",
                             Coins = 0,
-                            CreatedDate = new DateTime(2023, 11, 27, 14, 5, 36, 613, DateTimeKind.Utc).AddTicks(2415),
+                            CreatedDate = new DateTime(2023, 11, 28, 1, 53, 45, 973, DateTimeKind.Utc).AddTicks(2677),
                             Email = "Admin@gmail.com",
                             Name = "Admin",
                             Password = "1376C6CB014C2157D7DFF060B756C812",
@@ -292,6 +298,34 @@ namespace AntiFakebookApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Reactions");
+                });
+
+            modelBuilder.Entity("AntiFakebookApi.Models.RequestFriend", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("AccountIdReceive")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AccountIdSendRequest")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RequestFriends");
                 });
 #pragma warning restore 612, 618
         }

@@ -102,27 +102,27 @@ namespace AntiFakebookApi.Services
                     Uuid = request.Uuid,
                     Password = UtilityFunction.CreateMD5(request.Email),
                     Coins = 10,
-                    Status = 1,
+                    Status = 0,
                 };
                 _userRepository.Create(newAccount);
                 _userRepository.SaveChange();
 
-                var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_apiOption.Secret));
-                var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
-                var claimList = new[]
-                {
-                    new Claim(ClaimTypes.Role, "User"),
-                    new Claim(ClaimTypes.UserData, newAccount.Email),
-                    new Claim(ClaimTypes.Sid, newAccount.Id.ToString()),
-                };
-                var token = new JwtSecurityToken(
-                    issuer: _apiOption.ValidIssuer,
-                    audience: _apiOption.ValidAudience,
-                    expires: DateTime.Now.AddDays(1),
-                    claims: claimList,
-                    signingCredentials: credentials
-                );
-                var tokenByString = new JwtSecurityTokenHandler().WriteToken(token);
+                //var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_apiOption.Secret));
+                //var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
+                //var claimList = new[]
+                //{
+                //    new Claim(ClaimTypes.Role, "User"),
+                //    new Claim(ClaimTypes.UserData, newAccount.Email),
+                //    new Claim(ClaimTypes.Sid, newAccount.Id.ToString()),
+                //};
+                //var token = new JwtSecurityToken(
+                //    issuer: _apiOption.ValidIssuer,
+                //    audience: _apiOption.ValidAudience,
+                //    expires: DateTime.Now.AddDays(1),
+                //    claims: claimList,
+                //    signingCredentials: credentials
+                //);
+                //var tokenByString = new JwtSecurityTokenHandler().WriteToken(token);
                 var newPushSetting = new PushSetting();
                 newPushSetting.AccountId = newAccount.Id;
                 newPushSetting.LikeComment = "Default";
@@ -140,7 +140,7 @@ namespace AntiFakebookApi.Services
                 _pushSettingRepository.SaveChange();
                 return new
                 {
-                    token = tokenByString,
+                    //token = tokenByString,
                     id = newAccount.Id,
                     username = newAccount.Name,
                     avatar = newAccount.Avatar,
@@ -186,6 +186,71 @@ namespace AntiFakebookApi.Services
                 _userRepository.UpdateByEntity(user);
                 _userRepository.SaveChange();
 
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public object GetVerifyCode(string email)
+        {
+            try
+            {
+                var user = _userRepository.FindByCondition(row => row.Email == email).FirstOrDefault();
+                if (user == null)
+                {
+                    throw new ValidateError(2000, "User doesn't exist");
+                }
+                var listNumber = new List<string> { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+                var otp = "";
+                Random rand = new Random();
+                for (int i = 0; i < 4; i++)
+                {
+                    var randomNumber = rand.Next(0, 9);
+                    otp += listNumber[randomNumber];
+                }
+                user.CodeVerify = otp;
+                _userRepository.UpdateByEntity(user);
+                _userRepository.SaveChange();
+
+                var tb = "<div>OTP Code là: " + user.CodeVerify + "</div>";
+
+                MailMessage mail = new MailMessage("pvo.dictionary.hung.dv@gmail.com", user.Email, "Schedule management send OTP to reset password", tb);
+                mail.IsBodyHtml = true;
+                SmtpClient client = new SmtpClient("smtp.gmail.com");
+                client.Host = "smtp.gmail.com";
+                client.UseDefaultCredentials = false;
+                client.Port = 587;
+                client.Credentials = new System.Net.NetworkCredential("pvo.dictionary.hung.dv@gmail.com", "pjesgrpquyrjjzed");
+                client.EnableSsl = true;
+                client.Send(mail);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public object CheckVerifyCode(CheckVerifyCodeRequest request)
+        {
+            try
+            {
+                var user = _userRepository.FindByCondition(row => row.Email == request.Email).FirstOrDefault();
+                if (user == null)
+                {
+                    throw new ValidateError(2000, "User doesn't exist");
+                }
+                if(user.CodeVerify != request.CodeVerify)
+                {
+                    throw new ValidateError(3000, "CodeVerify invalid");
+                }
+                user.Status = 1;
+                user.UpdatedDate = DateTime.Now;
+                _userRepository.UpdateByEntity(user);
+                _userRepository.SaveChange();
                 return true;
             }
             catch (Exception ex)

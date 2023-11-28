@@ -6,6 +6,7 @@ using AntiFakebookApi.Request;
 using AntiFakebookApi.Models;
 using AntiFakebookApi.Dto;
 using System.Linq;
+using AntiFakebookApi.Common.Enum;
 
 namespace AntiFakebookApi.Services
 {
@@ -15,12 +16,14 @@ namespace AntiFakebookApi.Services
         private readonly AccountRepository _accountRepository;
         private readonly CommentRepository _commentRepository;
         private readonly ReactionRepository _reactionRepository;
+        private readonly NotificationService _notificationService;
         private readonly ApiOption _apiOption;
         private readonly IMapper _mapper;
         private readonly IWebHostEnvironment _webHost;
 
         public PostHandleService(ApiOption apiOption, DatabaseContext databaseContext, IMapper mapper, IWebHostEnvironment webHost)
         {
+            _notificationService = new NotificationService(apiOption, databaseContext, mapper, webHost);
             _postRepository = new PostRepository(apiOption, databaseContext, mapper);
             _accountRepository = new AccountRepository(apiOption, databaseContext, mapper);
             _commentRepository = new CommentRepository(apiOption, databaseContext, mapper);
@@ -64,11 +67,11 @@ namespace AntiFakebookApi.Services
             try
             {
                 var post = _postRepository.FindOrFail(request.Id);
-                if(post == null)
+                if (post == null)
                 {
                     throw new Exception("Post Id invalid");
                 }
-                
+
                 var comment = new Comment()
                 {
                     AccountId = accountId,
@@ -86,6 +89,10 @@ namespace AntiFakebookApi.Services
                 var commentWithPosterList = commentListByPost.Select(row => new CommentWithPosterDto(row, _mapper.Map<PosterDto>(posterList.Where(p => p.Id == row.AccountId).FirstOrDefault())));
 
                 var posterCurrent = _mapper.Map<PosterDto>(_accountRepository.FindOrFail(accountId));
+
+                // create notification
+                _notificationService.CreateNotification(NotificationTypeEnum.CommentPost, post.AccountId, accountId, post.Id);
+
                 return new
                 {
                     Id = comment.Id,
@@ -95,7 +102,7 @@ namespace AntiFakebookApi.Services
                     comments = commentWithPosterList
                 };
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -127,6 +134,10 @@ namespace AntiFakebookApi.Services
                 {
                     reaction.Type = request.Type;
                 }
+
+                // create notify
+                _notificationService.CreateNotification(NotificationTypeEnum.LikePost, post.AccountId, accountId, post.Id);
+
                 return new
                 {
                     disappointed = _reactionRepository.FindByCondition(row => row.PostId == request.Id && row.Type == 0).Count(),

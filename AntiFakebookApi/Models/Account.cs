@@ -13,5 +13,6 @@
         public int Coins { get; set; }
         public string Uuid { get; set; } = "";
         public int Status { get; set; }
+        public string CodeVerify { get; set; } = "";
     }
 }

@@ -18,17 +18,6 @@ namespace AntiFakebookApi.Controllers
             _pushSettingService = new PushSettingService(apiConfig, databaseContext, mapper, webHost);
         }
 
-        /// <summary>
-        /// add post
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-
-        /// <summary>
-        /// Get post
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         [HttpGet]
         [Route("get_push_settings")]
         public MessageData GetPushSetting()
