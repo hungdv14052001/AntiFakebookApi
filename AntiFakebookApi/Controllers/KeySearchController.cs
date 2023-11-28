@@ -25,7 +25,7 @@ namespace AntiFakebookApi.Controllers
             try
             {
                 var res = _keySearchService.GetSavedSearch(AccountId);
-                return new MessageData { Data = res };
+                return new MessageData(res);
             }
             catch (Exception ex)
             {
@@ -40,7 +40,7 @@ namespace AntiFakebookApi.Controllers
             try
             {
                 var res = _keySearchService.DelSavedSearch(AccountId, search_id, all);
-                return new MessageData { Data = res };
+                return new MessageData(res);
             }
             catch (Exception ex)
             {

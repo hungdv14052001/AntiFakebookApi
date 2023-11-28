@@ -30,7 +30,7 @@ namespace AntiFakebookApi.Controllers
             try
             {
                 var res = _postService.AddPost(AccountId, request);
-                return new MessageData { Data = res };
+                return new MessageData(res);
             }
             catch (Exception ex)
             {
@@ -50,7 +50,7 @@ namespace AntiFakebookApi.Controllers
             try
             {
                 var res = _postService.GetPost(id);
-                return new MessageData { Data = res };
+                return new MessageData(res);
             }
             catch (Exception ex)
             {
@@ -70,7 +70,7 @@ namespace AntiFakebookApi.Controllers
             try
             {
                 var res = _postService.DeletePost(AccountId, id);
-                return new MessageData { Data = res };
+                return new MessageData(res);
             }
             catch (Exception ex)
             {
@@ -85,7 +85,7 @@ namespace AntiFakebookApi.Controllers
             try
             {
                 var res = _postService.GetListPost(userId, inCamPaint);
-                return new MessageData { Data = res };
+                return new MessageData(res);
             }
             catch (Exception ex)
             {
@@ -100,7 +100,7 @@ namespace AntiFakebookApi.Controllers
             try
             {
                 var res = _postService.Search(AccountId, request);
-                return new MessageData { Data = res };
+                return new MessageData(res);
             }
             catch (Exception ex)
             {

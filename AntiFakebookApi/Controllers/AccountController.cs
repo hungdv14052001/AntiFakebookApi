@@ -44,7 +44,7 @@ namespace AntiFakebookApi.Controllers
             try
             {
                 var res = _accountService.UpdateAccount(AccountId ,request);
-                return new MessageData { Data = res };
+                return new MessageData(res);
             }
             catch (Exception ex)
             {
@@ -59,7 +59,7 @@ namespace AntiFakebookApi.Controllers
             try
             {
                 var res = _accountService.GetListBlocks(AccountId);
-                return new MessageData { Data = res };
+                return new MessageData(res);
             }
             catch (Exception ex)
             {
@@ -74,7 +74,7 @@ namespace AntiFakebookApi.Controllers
             try
             {
                 var res = _accountService.SetBlock(AccountId, request);
-                return new MessageData { Data = res };
+                return new MessageData(res);
             }
             catch (Exception ex)
             {

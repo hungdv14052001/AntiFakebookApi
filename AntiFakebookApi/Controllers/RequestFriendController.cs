@@ -25,7 +25,7 @@ namespace AntiFakebookApi.Controllers
             try
             {
                 var res = _requestFriendService.SetRequestFriend(AccountId, request.UserId);
-                return new MessageData { Data = res };
+                return new MessageData(res);
             }
             catch (Exception ex)
             {
@@ -40,7 +40,7 @@ namespace AntiFakebookApi.Controllers
             try
             {
                 var res = _requestFriendService.GetRequestFriends(AccountId);
-                return new MessageData { Data = res };
+                return new MessageData(res);
             }
             catch (Exception ex)
             {
@@ -55,7 +55,7 @@ namespace AntiFakebookApi.Controllers
             try
             {
                 var res = _requestFriendService.SetAcceptFriend(AccountId, request);
-                return new MessageData { Data = res };
+                return new MessageData(res);
             }
             catch (Exception ex)
             {

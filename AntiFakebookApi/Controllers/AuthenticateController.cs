@@ -1,17 +1,11 @@
 ﻿using AutoMapper;
-using AutoMapper.Configuration;
 using AntiFakebookApi.Common;
-using AntiFakebookApi.Controllers;
 using AntiFakebookApi.Database;
 using AntiFakebookApi.Dto;
 using AntiFakebookApi.Request;
 using AntiFakebookApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Memory;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
 
 namespace AntiFakebookApi.Controllers
 {
@@ -38,7 +32,7 @@ namespace AntiFakebookApi.Controllers
             try
             {
                 var res = _userAuthenticateService.Login(request);
-                return new MessageData { Data = res };
+                return new MessageData(res);
             }
             catch (Exception ex)
             {
@@ -59,7 +53,7 @@ namespace AntiFakebookApi.Controllers
             try
             {
                 var res = _userAuthenticateService.Signup(request);
-                return new MessageData { Data = res };
+                return new MessageData(res);
             }
             catch (Exception ex)
             {
@@ -79,7 +73,7 @@ namespace AntiFakebookApi.Controllers
             try
             {
                 var res = _userAuthenticateService.ChangePassword(AccountId, request);
-                return new MessageData { Data = res };
+                return new MessageData(res);
             }
             catch (Exception ex)
             {
@@ -100,7 +94,7 @@ namespace AntiFakebookApi.Controllers
             try
             {
                 var res = _userAuthenticateService.GetVerifyCode(email);
-                return new MessageData { Data = res };
+                return new MessageData(res);
             }
             catch (Exception ex)
             {
@@ -121,7 +115,7 @@ namespace AntiFakebookApi.Controllers
             try
             {
                 var res = _userAuthenticateService.CheckVerifyCode(request);
-                return new MessageData { Data = res };
+                return new MessageData(res);
             }
             catch (Exception ex)
             {

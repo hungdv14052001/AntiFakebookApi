@@ -25,7 +25,7 @@ namespace AntiFakebookApi.Controllers
             try
             {
                 var res = _postHandleService.GetMarkComment(id);
-                return new MessageData { Data = res };
+                return new MessageData(res);
             }
             catch (Exception ex)
             {
@@ -45,7 +45,7 @@ namespace AntiFakebookApi.Controllers
             try
             {
                 var res = _postHandleService.SetMarkComment(AccountId, request);
-                return new MessageData { Data = res };
+                return new MessageData(res);
             }
             catch (Exception ex)
             {
@@ -60,7 +60,7 @@ namespace AntiFakebookApi.Controllers
             try
             {
                 var res = _postHandleService.Feel(AccountId, request);
-                return new MessageData { Data = res };
+                return new MessageData(res);
             }
             catch (Exception ex)
             {

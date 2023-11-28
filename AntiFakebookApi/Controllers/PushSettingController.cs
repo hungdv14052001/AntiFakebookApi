@@ -25,7 +25,7 @@ namespace AntiFakebookApi.Controllers
             try
             {
                 var res = _pushSettingService.GetPushSetting(AccountId);
-                return new MessageData { Data = res };
+                return new MessageData(res);
             }
             catch (Exception ex)
             {
@@ -40,7 +40,7 @@ namespace AntiFakebookApi.Controllers
             try
             {
                 var res = _pushSettingService.SetPushSetting(AccountId, request);
-                return new MessageData { Data = res };
+                return new MessageData(res);
             }
             catch (Exception ex)
             {
