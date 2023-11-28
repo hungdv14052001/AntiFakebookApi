@@ -11,5 +11,19 @@ namespace AntiFakebookApi.Models
         public int FromAccountId { get; set; }
         public string Content { get; set; }
         public bool IsRead { get; set; }
+
+        object getString()
+        {
+            return new
+            {
+                Id = Id.ToString(),
+                AccountId = AccountId.ToString(),
+                Type = ((int)Type).ToString(),
+                PostId = PostId.ToString(),
+                Content = Content.ToString(),
+                IsRead = IsRead.ToString(),
+                FromAccountId = FromAccountId.ToString(),
+            };
+        }
     }
 }

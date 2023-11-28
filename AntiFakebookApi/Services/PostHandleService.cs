@@ -53,7 +53,7 @@ namespace AntiFakebookApi.Services
                 {
                     post = post,
                     author = author,
-                    comments = commentWithPosterList
+                    comments = commentWithPosterList,
                 };
             }
             catch (Exception ex)
