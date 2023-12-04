@@ -48,7 +48,7 @@ namespace AntiFakebookApi.Services
                 var posterList = _accountRepository.FindByCondition(row => posterIdList.Contains(row.Id)).ToList();
                 var commentWithPosterList = commentListByPost.Select(row => new CommentWithPosterDto(row, _mapper.Map<PosterDto>(posterList.Where(p => p.Id == row.AccountId).FirstOrDefault())));
 
-                var author = _mapper.Map<PosterDto>(_accountRepository.FindOrFail(post.AccountId));
+                var author = _mapper.Map<PosterDto>(_accountRepository.FindOrFail(post.AccountId)).GetString();
                 return new
                 {
                     post = post.GetString(),
@@ -88,16 +88,16 @@ namespace AntiFakebookApi.Services
                 var posterList = _accountRepository.FindByCondition(row => posterIdList.Contains(row.Id)).ToList();
                 var commentWithPosterList = commentListByPost.Select(row => new CommentWithPosterDto(row, _mapper.Map<PosterDto>(posterList.Where(p => p.Id == row.AccountId).FirstOrDefault())));
 
-                var posterCurrent = _mapper.Map<PosterDto>(_accountRepository.FindOrFail(accountId));
+                var posterCurrent = _mapper.Map<PosterDto>(_accountRepository.FindOrFail(accountId)).GetString();
 
                 // create notification
                 _notificationService.CreateNotification(NotificationTypeEnum.CommentPost, post.AccountId, accountId, post.Id);
 
                 return new
                 {
-                    Id = comment.Id,
+                    Id = comment.Id.ToString(),
                     Content = comment.Content,
-                    Type = comment.Type,
+                    Type = comment.Type.ToString(),
                     poster = posterCurrent,
                     comments = commentWithPosterList
                 };
@@ -140,8 +140,8 @@ namespace AntiFakebookApi.Services
 
                 return new
                 {
-                    disappointed = _reactionRepository.FindByCondition(row => row.PostId == request.Id && row.Type == 0).Count(),
-                    kudos = _reactionRepository.FindByCondition(row => row.PostId == request.Id && row.Type == 1).Count(),
+                    disappointed = _reactionRepository.FindByCondition(row => row.PostId == request.Id && row.Type == 0).Count().ToString(),
+                    kudos = _reactionRepository.FindByCondition(row => row.PostId == request.Id && row.Type == 1).Count().ToString(),
                 };
             }
             catch (Exception ex)

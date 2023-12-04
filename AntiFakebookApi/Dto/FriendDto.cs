@@ -10,7 +10,7 @@
 
         public object getString()
         {
-            return new { Id = this.Id.ToString(), Name = Name.ToString(), SameFriends = SameFriends .ToString()};
+            return new { Id = this.Id.ToString(), Name = Name.ToString(), SameFriends = SameFriends.ToString()};
         }
     }
 }
