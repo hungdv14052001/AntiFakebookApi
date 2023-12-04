@@ -75,9 +75,9 @@ namespace AntiFakebookApi.Services
                 _accountRepository.SaveChange();
                 return new
                 {
-                    id = post.Id,
+                    id = post.Id.ToString(),
                     url = "posts/"+post.Id,
-                    coins = account.Coins,
+                    coins = account.Coins.ToString(),
                 };
             }
             catch(Exception ex)
@@ -98,8 +98,8 @@ namespace AntiFakebookApi.Services
                 var account = _accountRepository.FindOrFail(post.AccountId);
                 return new
                 {
-                    post = post,
-                    author = account
+                    post = post.GetString(),
+                    author = account.GetString()
                 };
             }
             catch (Exception ex)
@@ -120,7 +120,7 @@ namespace AntiFakebookApi.Services
                 _postRepository.DeleteByEntity(post);
                 _postRepository.SaveChange();
 
-                return post;
+                return "true";
             }
             catch (Exception ex)
             {

@@ -18,7 +18,9 @@
                 PostId = PostId.ToString(),
                 Content = Content.ToString(),
                 Status = Status.ToString(),
-                Type = Type.ToString()
+                Type = Type.ToString(),
+                CreatedDate = CreatedDate,
+                UpdatedDate = (this.UpdatedDate == null ? "null" : UpdatedDate.ToString())
             };
         }
     }

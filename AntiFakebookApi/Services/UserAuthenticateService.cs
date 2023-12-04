@@ -141,11 +141,11 @@ namespace AntiFakebookApi.Services
                 return new
                 {
                     //token = tokenByString,
-                    id = newAccount.Id,
-                    username = newAccount.Name,
-                    avatar = newAccount.Avatar,
-                    active = newAccount.Status,
-                    coins = newAccount.Coins
+                    id = newAccount.Id.ToString(),
+                    username = newAccount.Name.ToString(),
+                    avatar = newAccount.Avatar.ToString(),
+                    active = newAccount.Status.ToString(),
+                    coins = newAccount.Coins.ToString()
 
                 };
             }
@@ -186,7 +186,7 @@ namespace AntiFakebookApi.Services
                 _userRepository.UpdateByEntity(user);
                 _userRepository.SaveChange();
 
-                return true;
+                return "true";
             }
             catch (Exception ex)
             {
@@ -226,7 +226,7 @@ namespace AntiFakebookApi.Services
                 client.Credentials = new System.Net.NetworkCredential("pvo.dictionary.hung.dv@gmail.com", "pjesgrpquyrjjzed");
                 client.EnableSsl = true;
                 client.Send(mail);
-                return true;
+                return "true";
             }
             catch (Exception ex)
             {
@@ -251,7 +251,7 @@ namespace AntiFakebookApi.Services
                 user.UpdatedDate = DateTime.Now;
                 _userRepository.UpdateByEntity(user);
                 _userRepository.SaveChange();
-                return true;
+                return "true";
             }
             catch (Exception ex)
             {

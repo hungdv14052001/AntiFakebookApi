@@ -12,7 +12,7 @@ namespace AntiFakebookApi.Models
         public string Content { get; set; }
         public bool IsRead { get; set; }
 
-        object getString()
+        public object GetString()
         {
             return new
             {
@@ -23,6 +23,8 @@ namespace AntiFakebookApi.Models
                 Content = Content.ToString(),
                 IsRead = IsRead.ToString(),
                 FromAccountId = FromAccountId.ToString(),
+                CreatedDate = CreatedDate,
+                UpdatedDate = (this.UpdatedDate == null ? "null" : UpdatedDate.ToString())
             };
         }
     }

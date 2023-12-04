@@ -24,7 +24,7 @@ namespace AntiFakebookApi.Controllers
 
         protected MessageData NG(Exception ex)
         {
-            var response = new MessageData ("null"){ Data = null, Code = "500", Message = ex.Message };
+            var response = new MessageData ("null"){ Data = "null", Code = "500", Message = ex.Message };
             if (ex.GetType().Name == "ValidateError")
             {
                 var validateException = ex as ValidateError;

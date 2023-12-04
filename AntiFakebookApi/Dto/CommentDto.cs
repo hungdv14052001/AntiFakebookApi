@@ -11,15 +11,15 @@ namespace AntiFakebookApi.Dto
 
     public class CommentWithPosterDto
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string Content { get; set; }
         public DateTime CreatedDate { get; set; }
-        public PosterDto Poster { get; set; }
+        public object Poster { get; set; }
 
         public CommentWithPosterDto(Comment comment, PosterDto posterDto)
         {
-            Poster = posterDto;
-            Id = comment.Id;
+            Poster = posterDto.GetString();
+            Id = comment.Id.ToString();
             Content = comment.Content;
             CreatedDate = comment.CreatedDate;
         }

@@ -11,5 +11,23 @@
         public string CommentAccountIdList { get; set; } = "";
         public string LikedAccountIdList { get; set; } = "";
         public int Status { get; set; }
+
+        public object GetString()
+        {
+            return new
+            {
+                Id = Id.ToString(),
+                AccountId = AccountId.ToString(),
+                Described = Described.ToString(),
+                Media = Media.ToString(),
+                Image = Image.ToString(),
+                Video = Video.ToString(),
+                CommentAccountIdList = CommentAccountIdList.ToString(),
+                LikedAccountIdList = LikedAccountIdList.ToString(),
+                Status = Status.ToString(),
+                CreatedDate = CreatedDate,
+                UpdatedDate = (this.UpdatedDate == null ? "null" : UpdatedDate.ToString())
+            };
+        }
     }
 }

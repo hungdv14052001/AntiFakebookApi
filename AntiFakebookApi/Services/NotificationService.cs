@@ -68,7 +68,7 @@ namespace AntiFakebookApi.Services
         {
             try
             {
-                return _notificationRepository.FindByCondition(row => row.AccountId == accountId).OrderByDescending(row => row.UpdatedDate).ToList();
+                return _notificationRepository.FindByCondition(row => row.AccountId == accountId).OrderByDescending(row => row.UpdatedDate).ToList().Select(row => row.GetString()).ToList();
             }
             catch (Exception ex)
             {
@@ -91,7 +91,7 @@ namespace AntiFakebookApi.Services
                 _notificationRepository.SaveChange();
                 return new
                 {
-                    badge = _notificationRepository.FindByCondition(row => row.IsRead == false && row.AccountId == accountId).Count(),
+                    badge = _notificationRepository.FindByCondition(row => row.IsRead == false && row.AccountId == accountId).Count().ToString(),
                     LastUpdate = notification.UpdatedDate
                 };
             }

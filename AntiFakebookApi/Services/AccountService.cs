@@ -77,7 +77,7 @@ namespace AntiFakebookApi.Services
                 {
                     accountIdList = account.BlockedAccountIdList?.Split(',')?.Select(Int32.Parse)?.ToList();
                 }
-                return _accountRepository.FindByCondition(row => accountIdList.Contains(row.Id)).ToList();
+                return _accountRepository.FindByCondition(row => accountIdList.Contains(row.Id)).ToList().Select(row => row.GetString()).ToList();
             }
             catch (Exception ex)
             {
@@ -130,6 +130,8 @@ namespace AntiFakebookApi.Services
                 {
                     blockedAccountIdList += accountIdList[accountIdList.Count() - 1];
                 }
+                account.BlockedAccountIdList = blockedAccountIdList;
+                account.UpdatedDate = DateTime.Now;
                 _accountRepository.UpdateByEntity(account);
                 _accountRepository.SaveChange();
                 return "true";

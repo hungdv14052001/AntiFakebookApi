@@ -72,7 +72,7 @@ namespace AntiFakebookApi.Services
 
                 return new
                 {
-                    request = friendDtoList,
+                    request = friendDtoList.Select(row=> row.getString()).ToList(),
                     total = friendDtoList.Count().ToString()
                 };
             }
@@ -111,8 +111,8 @@ namespace AntiFakebookApi.Services
 
                 return new
                 {
-                    request = friendDtoList.OrderByDescending(row => row.SameFriends),
-                    total = friendDtoList.Count()
+                    request = friendDtoList.OrderByDescending(row => row.SameFriends).Select(row => row.getString()).ToList(),
+                    total = friendDtoList.Count().ToString()
                 };
             }
             catch (Exception ex)

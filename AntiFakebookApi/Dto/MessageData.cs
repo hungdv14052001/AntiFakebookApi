@@ -8,7 +8,7 @@ namespace AntiFakebookApi.Dto
     {
         public string Code { get; set; } = "1000";
         public object Data { get; set; }
-        public string Message { get; set; }
+        public string Message { get; set; } = "null";
 
         public MessageData(object data)
         {

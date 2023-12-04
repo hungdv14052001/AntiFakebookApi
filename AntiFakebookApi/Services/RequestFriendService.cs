@@ -52,7 +52,7 @@ namespace AntiFakebookApi.Services
                 // create notification
                 _notificationService.CreateNotification(NotificationTypeEnum.SendRequest, userId, accountId, 0);
 
-                return _requestFriendRepository.FindByCondition(row => row.Status == 1 && row.AccountIdSendRequest == accountId).ToList();
+                return _requestFriendRepository.FindByCondition(row => row.Status == 1 && row.AccountIdSendRequest == accountId).ToList().Select(row => row.GetString()).ToList();
             }
             catch (Exception ex)
             {

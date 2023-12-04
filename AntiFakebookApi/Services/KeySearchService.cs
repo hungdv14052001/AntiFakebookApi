@@ -27,7 +27,7 @@ namespace AntiFakebookApi.Services
         {
             try
             {
-                return _keySearchRepository.FindByCondition(row => row.AccountId == accountId).OrderBy(row => row.UpdatedDate).ToList();
+                return _keySearchRepository.FindByCondition(row => row.AccountId == accountId).OrderBy(row => row.UpdatedDate).ToList().Select(row => row.GetString()).ToList();
             }
             catch (Exception ex)
             {
@@ -58,7 +58,7 @@ namespace AntiFakebookApi.Services
                     _keySearchRepository.DeleteByEntity(keySearch);
                     _keySearchRepository.SaveChange();
                 }
-                return true;
+                return "true";
             }
             catch (Exception ex)
             {

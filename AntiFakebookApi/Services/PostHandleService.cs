@@ -51,7 +51,7 @@ namespace AntiFakebookApi.Services
                 var author = _mapper.Map<PosterDto>(_accountRepository.FindOrFail(post.AccountId));
                 return new
                 {
-                    post = post,
+                    post = post.GetString(),
                     author = author,
                     comments = commentWithPosterList,
                 };
