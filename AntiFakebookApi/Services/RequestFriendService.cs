@@ -75,11 +75,12 @@ namespace AntiFakebookApi.Services
                     var count = _friendRepository.FindByCondition(row => (row.AccountIdSend == friendDto.Id && userIdList.Contains(row.AccountIdSend)) || (row.AccountIdReceive == friendDto.Id && userIdList.Contains(row.AccountIdReceive))).Count();
                     friendDto.SameFriends = count;
                 }
+                var requestFriendDtoListToString = userList.Select(row => _mapper.Map<FriendDto>(row).getString()).ToList();
 
                 return new
                 {
-                    request = requestFriendDtoList,
-                    total = query.Count()
+                    request = requestFriendDtoListToString,
+                    total = query.Count().ToString()
                 };
             }
             catch (Exception ex)
@@ -120,8 +121,8 @@ namespace AntiFakebookApi.Services
 
                 // create notification
                 _notificationService.CreateNotification(NotificationTypeEnum.AcceptFriend, friend.AccountIdSend, accountId, 0);
-
-                return reuqestFriend;
+                var requestFriend = reuqestFriend.GetString();
+                return requestFriend;
             }
             catch (Exception ex)
             {
