@@ -111,7 +111,7 @@ namespace AntiFakebookApi.Services
 
                 return new
                 {
-                    request = friendDtoList.OrderByDescending(row => row.SameFriends).Select(row => row.getString()).ToList(),
+                    request = friendDtoList.OrderByDescending(row => row.SameFriends).Where(row => row.Id != accountId).Select(row => row.getString()).ToList(),
                     total = friendDtoList.Count().ToString()
                 };
             }
