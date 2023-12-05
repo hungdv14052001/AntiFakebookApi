@@ -28,6 +28,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\accounts\avatars\" />
+    <Folder Include="wwwroot\accounts\cover\" />
     <Folder Include="wwwroot\posts\images\" />
     <Folder Include="wwwroot\posts\videos\" />
   </ItemGroup>

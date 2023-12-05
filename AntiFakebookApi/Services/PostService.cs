@@ -86,6 +86,59 @@ namespace AntiFakebookApi.Services
             }
         }
 
+        public object EditPost(int accountId, EditPostRequest request)
+        {
+            try
+            {
+                var account = _accountRepository.FindOrFail(accountId);
+                if (account.Coins < 1)
+                {
+                    throw new Exception("Not enough coin");
+                }
+                var post = _postRepository.FindOrFail(request.Id);
+                if(post == null)
+                {
+                    throw new Exception("Not enough coin");
+                }
+                if (request.Image != null)
+                {
+                    var date = DateTime.UtcNow.ToString("yyyy_MM_dd_HH_mm");
+                    using (FileStream fileStream = File.Create(_webHost.WebRootPath + "\\posts\\images\\" + date + request.Image.FileName))
+                    {
+                        request.Image.CopyTo(fileStream);
+                        fileStream.Flush();
+                    }
+                    post.Image = "posts/images/" + date + request.Image.FileName;
+                }
+                if (request.Video != null)
+                {
+                    var date = DateTime.UtcNow.ToString("yyyy_MM_dd_HH_mm");
+                    using (FileStream fileStream = File.Create(_webHost.WebRootPath + "\\posts\\videos\\" + date + request.Video.FileName))
+                    {
+                        request.Video.CopyTo(fileStream);
+                        fileStream.Flush();
+                    }
+                    post.Video = "posts/videos/" + date + request.Video.FileName;
+                }
+                _postRepository.UpdateByEntity(post);
+                _postRepository.SaveChange();
+
+                // reduce coin
+                account.Coins -= 1;
+                account.UpdatedDate = DateTime.Now;
+                _accountRepository.UpdateByEntity(account);
+                _accountRepository.SaveChange();
+                return new
+                {
+                    coins = account.Coins.ToString(),
+                };
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public object GetPost(int id)
         {
             try
@@ -182,6 +235,24 @@ namespace AntiFakebookApi.Services
                     _keySearchRepository.Create(checkKeyWord);
                     _keySearchRepository.SaveChange();
                 }
+                return postWithAuthorDtoList;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public object GetListVideos(int userId)
+        {
+            try
+            {
+                var query = _postRepository.FindByCondition(row => row.AccountId == userId && !string.IsNullOrEmpty(row.Video));
+                var postList = query.ToList();
+                var authorIdList = postList.Select(row => row.AccountId).ToList();
+                var authorList = _accountRepository.FindByCondition(row => authorIdList.Contains(row.Id)).ToList();
+
+                var postWithAuthorDtoList = postList.Select(row => new PostWithAuthorDto(row, _mapper.Map<PosterDto>(authorList.Where(a => a.Id == row.AccountId).FirstOrDefault()))).ToList();
                 return postWithAuthorDtoList;
             }
             catch (Exception ex)

@@ -18,24 +18,20 @@ namespace AntiFakebookApi.Controllers
             _accountService = new AccountService(apiConfig, databaseContext, mapper, webHost);
         }
 
-        ///// <summary>
-        ///// get profile
-        ///// </summary>
-        ///// <returns></returns>
-        //[HttpGet]
-        //[Route("GetProfile")]
-        //public MessageData GetProfile()
-        //{
-        //    try
-        //    {
-        //        var res = _accountService.GetProfile(UserId);
-        //        return new MessageData { Data = res, Status = 1 };
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return NG(ex);
-        //    }
-        //}
+        [HttpGet]
+        [Route("get_user_info")]
+        public MessageData GetUserInfo(int userId)
+        {
+            try
+            {
+                var res = _accountService.GetUserInfo(AccountId, userId);
+                return new MessageData(res);
+            }
+            catch (Exception ex)
+            {
+                return NG(ex);
+            }
+        }
 
         [HttpPut]
         [Route("change_info_after_signup")]
@@ -44,6 +40,21 @@ namespace AntiFakebookApi.Controllers
             try
             {
                 var res = _accountService.UpdateAccount(AccountId ,request);
+                return new MessageData(res);
+            }
+            catch (Exception ex)
+            {
+                return NG(ex);
+            }
+        }
+
+        [HttpPost]
+        [Route("set_user_info")]
+        public MessageData SetUserInfo([FromForm] SetUserInfoRequest request)
+        {
+            try
+            {
+                var res = _accountService.SetUserInfo(AccountId, request);
                 return new MessageData(res);
             }
             catch (Exception ex)

@@ -14,6 +14,11 @@
         public string Uuid { get; set; } = "";
         public int Status { get; set; }
         public string CodeVerify { get; set; } = "";
+        public string Adress { get; set; } = "";
+        public string Description { get; set; } = "";
+        public string City { get; set; } = "";
+        public string Country { get; set; } = "";
+        public string CoverImage { get; set; } = "";
 
         public object GetString()
         {

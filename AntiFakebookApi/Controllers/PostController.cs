@@ -38,6 +38,21 @@ namespace AntiFakebookApi.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("edit_post")]
+        public MessageData EditPost([FromForm] EditPostRequest request)
+        {
+            try
+            {
+                var res = _postService.EditPost(AccountId, request);
+                return new MessageData(res);
+            }
+            catch (Exception ex)
+            {
+                return NG(ex);
+            }
+        }
+
         /// <summary>
         /// Get post
         /// </summary>
@@ -100,6 +115,21 @@ namespace AntiFakebookApi.Controllers
             try
             {
                 var res = _postService.Search(AccountId, request);
+                return new MessageData(res);
+            }
+            catch (Exception ex)
+            {
+                return NG(ex);
+            }
+        }
+
+        [HttpGet]
+        [Route("get_list_videos")]
+        public MessageData GetListVideos(int userId, string in_campaign, string campaign_id, string latitude, string last_id)
+        {
+            try
+            {
+                var res = _postService.GetListVideos(userId);
                 return new MessageData(res);
             }
             catch (Exception ex)

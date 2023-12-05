@@ -10,6 +10,7 @@ namespace AntiFakebookApi.Services
     public class AccountService
     {
         private readonly AccountRepository _accountRepository;
+        private readonly FriendRepository _friendRepository;
         private readonly ApiOption _apiOption;
         private readonly IMapper _mapper;
         private readonly IWebHostEnvironment _webHost;
@@ -17,6 +18,7 @@ namespace AntiFakebookApi.Services
         public AccountService(ApiOption apiOption, DatabaseContext databaseContext, IMapper mapper, IWebHostEnvironment webHost)
         {
             _accountRepository = new AccountRepository(apiOption, databaseContext, mapper);
+            _friendRepository = new FriendRepository(apiOption, databaseContext, mapper);
             _apiOption = apiOption;
             _mapper = mapper;
             _webHost = webHost;
@@ -55,6 +57,94 @@ namespace AntiFakebookApi.Services
                     avatar = account.Avatar.ToString(),
 
 
+                };
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public object SetUserInfo(int accountId, SetUserInfoRequest request)
+        {
+            try
+            {
+                var account = _accountRepository.FindByCondition(row => row.Id == accountId).FirstOrDefault();
+                if (account == null)
+                {
+                    throw new Exception("Account doesn't exist!");
+                }
+                if (request.avatar != null && request.avatar.FileName != account.Avatar)
+                {
+                    var date = DateTime.UtcNow.ToString("yyyy_MM_dd_HH_mm");
+                    using (FileStream fileStream = File.Create(_webHost.WebRootPath + "\\accounts\\avatars\\" + date + request.avatar.FileName))
+                    {
+                        request.avatar.CopyTo(fileStream);
+                        fileStream.Flush();
+                    }
+                    account.Avatar = "accounts/avatars/" + date + request.avatar.FileName;
+                }
+                if (account == null)
+                {
+                    throw new Exception("Account doesn't exist!");
+                }
+                if (request.cover_image != null && request.cover_image.FileName != account.CoverImage)
+                {
+                    var date = DateTime.UtcNow.ToString("yyyy_MM_dd_HH_mm");
+                    using (FileStream fileStream = File.Create(_webHost.WebRootPath + "\\accounts\\cover\\" + date + request.cover_image.FileName))
+                    {
+                        request.cover_image.CopyTo(fileStream);
+                        fileStream.Flush();
+                    }
+                    account.CoverImage = "accounts/cover/" + date + request.cover_image.FileName;
+                }
+                account.Description = request.description;
+                account.City = request.city;
+                account.Country = request.country;
+                account.Adress = request.address;
+                account.Name = request.username;
+                account.UpdatedDate = DateTime.UtcNow;
+                _accountRepository.UpdateByEntity(account);
+                _accountRepository.SaveChange();
+
+                return new
+                {
+                    avatar = account.Avatar.ToString(),
+                    cover_image = account.CoverImage.ToString(),
+                    link = request.Link.ToString(),
+                    city = account.City.ToString(),
+                    country = account.Country.ToString(),
+                };
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public object GetUserInfo(int accountId, int userId)
+        {
+            try
+            {
+                var user = _accountRepository.FindOrFail(userId);
+                if(user == null)
+                {
+                    throw new Exception("UserId does not exist");
+                }
+                var friend = _friendRepository.FindByCondition(row => (row.AccountIdSend == accountId && row.AccountIdReceive == userId) || (row.AccountIdSend == userId && row.AccountIdReceive == accountId)).FirstOrDefault();
+                var is_friend = friend != null ? "true" : "false";
+                return new
+                {
+                    id = user.Id.ToString(),
+                    username = user.Name,
+                    created = user.CreatedDate,
+                    description = user.Description,
+                    avatar = user.Avatar,
+                    address = user.Adress,
+                    city = user.City,
+                    listing = _friendRepository.FindByCondition(row => row.AccountIdSend == userId || row.AccountIdReceive == userId).Count().ToString(),
+                    is_friend = is_friend,
+                    coins = user.Coins.ToString()
                 };
             }
             catch (Exception ex)
